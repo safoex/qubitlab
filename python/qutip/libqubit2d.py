@@ -3,7 +3,7 @@
 
 # #### Imports
 
-# In[1]:
+# In[12]:
 
 from qutip import *
 from qutip.operators import *
@@ -12,18 +12,19 @@ import numpy as np
 get_ipython().magic('matplotlib inline')
 from cython import *
 from sympy import lambdify
+import sympy as sp
 import copy
 import functools
 
 
-# In[2]:
+# In[13]:
 
 class Empty(object):
     def __init__(self):
         pass
 
 
-# In[3]:
+# In[14]:
 
 class Model:
     "base class with nice init function"
@@ -46,7 +47,7 @@ class Model:
         self.update_or_copy(kvargs, self.class_params, True)
 
 
-# In[11]:
+# In[15]:
 
 class Pulse(Model):
     '''simple rectangular curved pulse'''
@@ -85,7 +86,7 @@ class Pulse(Model):
         ax.set_ylabel('Magnitude')
 
 
-# In[11]:
+# In[16]:
 
 class Vis2D(Model):
     def plot(self, title = 'Qubit'):
@@ -104,7 +105,7 @@ class Vis2D(Model):
         ax.set_ylabel('Occupation probability')
 
 
-# In[12]:
+# In[17]:
 
 class Simple2D(Vis2D):
     '''2 dimensional model without RWA'''
@@ -148,7 +149,7 @@ class Simple2D(Vis2D):
         self.result = mesolve(self.HTD(),self.params['psi0'], self.timelist(), [],expected_ops, args = self.args(),options= Options(nsteps=10000), progress_bar=True)
 
 
-# In[13]:
+# In[18]:
 
 class RWA2D(Simple2D):
     "2 dimensional model with RWA"
@@ -167,6 +168,14 @@ class RWA2D(Simple2D):
     ]
     class_params = ['params','pulse','Hf']
     
+
+
+# In[ ]:
+
+
+
+
+# In[ ]:
 
 
 
