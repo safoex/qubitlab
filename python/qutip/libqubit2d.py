@@ -3,7 +3,7 @@
 
 # #### Imports
 
-# In[12]:
+# In[1]:
 
 from qutip import *
 from qutip.operators import *
@@ -17,14 +17,14 @@ import copy
 import functools
 
 
-# In[13]:
+# In[2]:
 
 class Empty(object):
     def __init__(self):
         pass
 
 
-# In[14]:
+# In[3]:
 
 class Model:
     "base class with nice init function"
@@ -47,7 +47,7 @@ class Model:
         self.update_or_copy(kvargs, self.class_params, True)
 
 
-# In[15]:
+# In[9]:
 
 class Pulse(Model):
     '''simple rectangular curved pulse'''
@@ -70,7 +70,13 @@ class Pulse(Model):
         params = set(self.params.keys())
         params.add('t')
         return lambdify(params, self.shape, 'numpy')
-    
+    def function_t(self,offset = 0):
+        spf = sp.sympify(self.shape) + offset
+        tosubs = []
+        for k,v in self.params.items():
+            tosubs.append((sp.symbols(k),v))
+        new_spf = spf.subs(tosubs)
+        return lambdify({'t'},str(new_spf),'numpy') 
     def timelist(self):
         self.time['tlist'] = np.linspace(0,self.time['maxtime'],self.time['points'])
         return self.time['tlist']
@@ -86,7 +92,7 @@ class Pulse(Model):
         ax.set_ylabel('Magnitude')
 
 
-# In[16]:
+# In[6]:
 
 class Vis2D(Model):
     def plot(self, title = 'Qubit'):
@@ -105,7 +111,7 @@ class Vis2D(Model):
         ax.set_ylabel('Occupation probability')
 
 
-# In[17]:
+# In[7]:
 
 class Simple2D(Vis2D):
     '''2 dimensional model without RWA'''
@@ -149,7 +155,7 @@ class Simple2D(Vis2D):
         self.result = mesolve(self.HTD(),self.params['psi0'], self.timelist(), [],expected_ops, args = self.args(),options= Options(nsteps=10000), progress_bar=True)
 
 
-# In[18]:
+# In[8]:
 
 class RWA2D(Simple2D):
     "2 dimensional model with RWA"
