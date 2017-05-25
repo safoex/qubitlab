@@ -80,11 +80,12 @@ class Pulse(Model):
     def timelist(self):
         self.time['tlist'] = np.linspace(0,self.time['maxtime'],self.time['points'])
         return self.time['tlist']
-    def plot(self, title = 'Pulse'):
+    def plot(self, title = 'Pulse', **kwargs):
         fig, ax = plt.subplots(1,1, figsize=(13,5), sharey=True, dpi =600)
         ax.set_title(title)
         labels = ['pulse']
         params_for_graph = dict(self.params)
+        params_for_graph.update(kwargs)
         params_for_graph['t'] = self.timelist()
         ax.plot(self.timelist(), self.function()(**params_for_graph), label=(labels[0]), linewidth = 1 )
         ax.legend(bbox_to_anchor = [1,1],loc = "upper right")
