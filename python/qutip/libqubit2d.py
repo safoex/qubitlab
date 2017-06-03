@@ -40,11 +40,13 @@ class Model:
                     obj.__dict__[pk].update(kvargs[pk])
                 else:
                     obj.__dict__[pk] = copy.copy(kvargs[pk])
+        return obj
     def __init__(self, **kvargs):
         self.update_or_copy(kvargs, self.class_params)
     def update(self, **kvargs):
         print(kvargs)
-        self.update_or_copy(kvargs, self.class_params, True)
+        return self.update_or_copy(kvargs, self.class_params, True)
+        
 
 
 # In[9]:
