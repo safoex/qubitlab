@@ -44,7 +44,7 @@ class Model:
     def __init__(self, **kvargs):
         self.update_or_copy(kvargs, self.class_params)
     def update(self, **kvargs):
-        print(kvargs)
+        #print(kvargs)
         return self.update_or_copy(kvargs, self.class_params, True)
         
 
